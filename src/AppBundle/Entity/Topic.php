@@ -2,6 +2,7 @@
 
 namespace AppBundle\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -27,6 +28,19 @@ class Topic
      * @ORM\Column(name="message", type="string", length=255)
      */
     private $message;
+
+    /**
+     * @var ArrayCollection
+     *
+     * @ORM\OneToMany(targetEntity="Reply", mappedBy="topic")
+     *
+     */
+    private $replies;
+
+    public function __construct()
+    {
+        $this->replies = new ArrayCollection();
+    }
 
 
     /**
@@ -62,5 +76,31 @@ class Topic
     {
         return $this->message;
     }
+
+    /**
+     * @return ArrayCollection
+     */
+    public function getReplies()
+    {
+        return $this->replies;
+    }
+
+    /**
+     * @param ArrayCollection $reply
+     */
+    public function addReply($reply)
+    {
+        $this->replies->add($reply);
+    }
+
+    /**
+     * @param ArrayCollection $reply
+     */
+    public function removeReply($reply)
+    {
+        $this->replies->removeElement($reply);
+    }
+
+
 }
 
